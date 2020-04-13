@@ -1,8 +1,10 @@
+import java.io.BufferedReader
+import java.io.FileReader
 import kotlin.math.abs
 
-val FILENAME3A = "day3a.txt"
-val FILENAME3B = "day3b.txt"
-val grid_size = 20000
+private val FILENAME3A = "day3a.txt"
+private val FILENAME3B = "day3b.txt"
+private val grid_size = 20000
 //val FILENAME3A = "day3testinput.txt"
 //val FILENAME3B = "day3testinputb.txt"
 //val grid_size = 1000
@@ -207,4 +209,22 @@ fun set_route_vert_dist(grid: Array<IntArray>, x: Int, y: Int, steps: Int, dist:
             counter += 1
         }
     }
+}
+
+
+
+
+private fun get_input_str(filename: String): MutableList<String> {
+    var fileReader = BufferedReader(FileReader(filename))
+    val inputList = mutableListOf<String>()
+
+    var line = fileReader.readLine()
+    while (line != null) {
+        val inList = line.split(",")
+        for (item in inList) {
+            inputList.add(item)
+        }
+        line = fileReader.readLine()
+    }
+    return inputList
 }

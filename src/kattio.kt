@@ -46,32 +46,3 @@ class Kattio(i: InputStream = System.`in`, o: OutputStream = System.out) : Print
     fun words():   Sequence<String>     = generateSequence { this.wordOrNull() }
 }
 
-fun get_input_int(filename: String): MutableList<Int> {
-    var fileReader = BufferedReader(FileReader(filename))
-    val inputList = mutableListOf<Int>()
-
-    var line = fileReader.readLine()
-    while (line != null) {
-        val inList = line.split(",")
-        for (item in inList) {
-            inputList.add(item.toInt())
-        }
-        line = fileReader.readLine()
-    }
-    return inputList
-}
-
-fun get_input_str(filename: String): MutableList<String> {
-    var fileReader = BufferedReader(FileReader(filename))
-    val inputList = mutableListOf<String>()
-
-    var line = fileReader.readLine()
-    while (line != null) {
-        val inList = line.split(",")
-        for (item in inList) {
-            inputList.add(item)
-        }
-        line = fileReader.readLine()
-    }
-    return inputList
-}

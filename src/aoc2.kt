@@ -1,3 +1,5 @@
+import java.io.BufferedReader
+import java.io.FileReader
 import java.lang.Math.floor
 
 val FILENAME2 = "day2.txt"
@@ -85,3 +87,15 @@ fun main(args: Array<String>) {
     println("Answer 2b: $ans ")
 }
 
+
+private fun get_input_int(filename: String): MutableList<Int> {
+    var fileReader = BufferedReader(FileReader(filename))
+    val inputList = mutableListOf<Int>()
+
+    var line = fileReader.readLine()
+    while (line != null) {
+        line.split(",").map { inputList.add(it.toInt()) }
+        line = fileReader.readLine()
+    }
+    return inputList
+}
