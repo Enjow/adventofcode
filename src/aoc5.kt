@@ -21,13 +21,11 @@ fun main(args: Array<String>) {
         var secondTerm: Int = 0
 
 
-        if (operator == 9)
-            println("successfully ended program")
 
         println("operator $operator")
 
         //get first and second term
-        if (operator == 1 || operator == 2) {
+        if (operator == 1 || operator == 2 || operator == 5 || operator == 6 || operator == 7 || operator == 8) {
             firstTerm = if (parameters % 10 == 1.0) {
                 operations[pointer + 1]//immidiate mode
             } else {
@@ -38,14 +36,14 @@ fun main(args: Array<String>) {
             } else {
                 operations[operations[pointer + 2]] // position mode
             }
-//            print("secondTerm Parameter ")
-//            println(truncate(parameters / 10) % 10)
+//            println("Parameter $parameters")
+//            println("pointer $pointer")
 //            println("first term $firstTerm")
 //            println("second term $secondTerm")
+//            println(operations)
         }
 
         //execute
-
         when (operator) {
             1 -> {
                 operations[operations[pointer + 3]] = firstTerm + secondTerm
@@ -61,21 +59,28 @@ fun main(args: Array<String>) {
                 println(currentInput)
             }
             5 -> {
-                if (operations[pointer + 1] != 0) {
-                    pointer = operations[pointer + 2]
+                if (firstTerm != 0) {
+//                    pointer = operations[operations[pointer + 2]]//Todo Check if ok
+//                    pointer = operations[pointer+2]//Todo Check if ok
+                    pointer = secondTerm
+//                    print("Operator is 5 second term is $secondTerm")
+
                 } else {
-                    pointer += 2
+                    pointer += 3
+//                    println("Operator is 5 pointer became $pointer")
+
                 }
             }
             6 -> {
-                if (operations[pointer + 1] == 0) {
-                    pointer = operations[pointer + 2]
+                if (firstTerm == 0) {
+                    pointer = secondTerm
+
                 } else {
-                    pointer += 2
+                    pointer += 3
                 }
             }
             7 -> {
-                if (operations[pointer + 1] < operations[pointer + 2]) {
+                if (firstTerm < secondTerm) {
                     operations[operations[pointer + 3]] = 1
                 } else {
                     operations[operations[pointer + 3]] = 0
@@ -83,14 +88,17 @@ fun main(args: Array<String>) {
 
             }
             8 -> {
-                if (operations[pointer + 1] == operations[pointer + 2]) {
+                if (firstTerm == secondTerm) {
                     operations[operations[pointer + 3]] = 1
                 } else {
                     operations[operations[pointer + 3]] = 0
                 }
             }
+            9 -> println("successfully ended program")
             else -> error("nope")
         }
+
+
 
         if (operator != 5 && operator != 6)
             pointer += pointer_shift(operator)
