@@ -30,7 +30,7 @@ fun day2a() {
     print("Answer at position 0: " + input[0])
 }
 
-fun machine(noun: Int, verb: Int): Int {
+private fun machine(noun: Int, verb: Int): Int {
     var input = get_input_int(FILENAME2)
     input[1] = noun
     input[2] = verb
