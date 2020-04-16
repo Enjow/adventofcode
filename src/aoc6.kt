@@ -11,10 +11,9 @@ fun main(args: Array<String>) {
     }
     var sum = 0
     for ((key, value) in graphCounter) {
-        println("$key has value $value")
         sum += value
     }
-    print(sum)
+    print("Answer: $sum")
 }
 
 fun distanceOfNode(node: String, graph: HashMap<String, String>): Int {
@@ -35,13 +34,10 @@ private fun getStringInput(filename: String): HashMap<String, String> {
     var graph = HashMap<String, String>()
     while (line != null) {
         var splitLine = line.split(")")
-        var parent = splitLine[0]
-        var child = splitLine[1]
-//        graph.merge(child , mutableListOf(parent)) { a, b -> a.addAll(b); a } // Ask bjorn about the details or google when not tired
+        var parent = splitLine[0]; var child = splitLine[1]
         if (graph.containsKey(child))
             error("Child node twice in input")
         graph.putIfAbsent(child, parent)
-//        println(graph[child])
         line = fileReader.readLine()
     }
     return graph
