@@ -98,8 +98,6 @@ fun main(args: Array<String>) {
             else -> error("nope")
         }
 
-
-
         if (operator != 5 && operator != 6)
             pointer += pointer_shift(operator)
 
