@@ -27,3 +27,4 @@ hs_err_pid*
 src/kladd.kt
 adventofcode.iml
 out/*
+*.txt
