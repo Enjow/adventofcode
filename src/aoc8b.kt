@@ -14,20 +14,16 @@ fun main(args: Array<String>) {
     var finalPicture = HashMap<Position2D, Char>()
     var layer = 1
     for (picture in pictures) {
-        println("This picture is getting checked")
-        printPicture(picture)
         for ((key, value) in picture) {
             if (value == '1' && !finalPicture.containsKey(key)) {
                 finalPicture.putIfAbsent(key, 'G')
             } else if (value == '0' && !finalPicture.containsKey(key)) {
-                println("wrote a 0 to $key because value was $value and layer is $layer")
                 finalPicture.putIfAbsent(key, '-')
             } else if (value == '2' && !finalPicture.containsKey(key) && picture == pictures.last()) {
                 finalPicture.putIfAbsent(key, ' ')
             }
 
         }
-        println("layer: $layer")
         layer++
     }
     println("Result")
@@ -59,17 +55,11 @@ private fun getInput(filename: String): MutableList<HashMap<Position2D, Char>> {
 
         x = index % (WIDTH); y = truncate(index % PICSIZE / WIDTH.toDouble()).toInt();
         picture[Position2D(x, y)] = pixel
-        println(" x: $x, y: $y, pixel: $pixel")
         if ((index + 1) % PICSIZE == 0 && index >= PICSIZE - 1) {
-            println("Index is: $index added picture")
-            printPicture(picture)
             pictures.add(picture)
             picture = HashMap(picture) // Not very nice
         }
     }
-    for (picture in pictures)
-        printPicture(picture)
-
     return pictures
 }
 
