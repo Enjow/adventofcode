@@ -16,11 +16,11 @@ fun main(args: Array<String>) {
     for (picture in pictures) {
         for ((key, value) in picture) {
             if (value == '1' && !finalPicture.containsKey(key)) {
-                finalPicture.putIfAbsent(key, 'G')
+                finalPicture.putIfAbsent(key, '@')
             } else if (value == '0' && !finalPicture.containsKey(key)) {
-                finalPicture.putIfAbsent(key, '-')
-            } else if (value == '2' && !finalPicture.containsKey(key) && picture == pictures.last()) {
                 finalPicture.putIfAbsent(key, ' ')
+            } else if (value == '2' && !finalPicture.containsKey(key) && picture == pictures.last()) {
+                finalPicture.putIfAbsent(key, '-')
             }
 
         }
@@ -54,8 +54,9 @@ private fun getInput(filename: String): MutableList<HashMap<Position2D, Char>> {
     for ((index, pixel) in allPixels.withIndex()) {
 
         x = index % (WIDTH); y = truncate(index % PICSIZE / WIDTH.toDouble()).toInt();
+
         picture[Position2D(x, y)] = pixel
-        if ((index + 1) % PICSIZE == 0 && index >= PICSIZE - 1) {
+        if ((index + 1) % PICSIZE == 0 && index+1 >= PICSIZE) {
             pictures.add(picture)
             picture = HashMap(picture) // Not very nice
         }
