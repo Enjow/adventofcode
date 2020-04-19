@@ -57,10 +57,24 @@ fun main(args: Array<String>) {
         }
 
 
-
+    println("ANSWER B: ")
     print(gridTerminationOrder.filterValues { it==200 })
+//    printIntGrid(gridTerminationOrder)
 }
 
+private fun printIntGrid(grid: MutableMap<Position2D, Int>) {
+    var temp = grid.toSortedMap(compareBy<Position2D> { it.y }.thenBy { it.x })
+    var yprev = 0
+    for ((key, value) in temp) {
+        print("$value, ")
+//
+        if (key.y - yprev > 0) {
+            println("")
+        }
+        yprev = key.y
+    }
+    println("")
+}
 
 
 
@@ -68,7 +82,7 @@ fun getAngle(direction: Position2D): Double {
     var res = mutableListOf<Double>()
     var angle = (acos(-direction.y / direction.norm()) * 180 / Math.PI) //OBS flipped negative y direction
     if (direction.x < 0) {
-        angle = -angle
+        angle = -angle+360.0 // Todo Check this
     }
     return Math.round(angle * 1000.0) / 1000.0
 }
