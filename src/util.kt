@@ -1,5 +1,9 @@
+import kotlin.math.pow
+import kotlin.math.sqrt
+
 data class Position2D(var x: Int, var y: Int) {
     operator fun minus (pos: Position2D) :Position2D =  Position2D(this.x-pos.x, this.y-pos.y)
+    fun norm() = sqrt(this.x.toDouble().pow(2)+this.y.toDouble().pow(2))
     fun divisibleBy(pos: Position2D): Boolean {
         if ((this.x != 0 && pos.x == 0) ||
             (this.y != 0 && pos.y == 0)
