@@ -21,3 +21,17 @@ data class Position2D(var x: Int, var y: Int) {
         return false
     }
 }
+
+fun printIntGrid(grid: MutableMap<Position2D, Int>) {
+    var temp = grid.toSortedMap(compareBy<Position2D> { it.y }.thenBy { it.x })
+    var yprev = 0
+    for ((key, value) in temp) {
+        print("$value, ")
+//
+        if (key.y - yprev > 0) {
+            println("")
+        }
+        yprev = key.y
+    }
+    println("")
+}

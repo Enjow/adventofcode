@@ -29,14 +29,13 @@ fun main(args: Array<String>) {
     for ((key, value) in gridDirections) {
         if (value.count() == maxVal) {
             maxKey = key
-            println("Position $key has value: ${value.count()}")
+            println("$key has ${value.count()} asteroids in its direction")
         }
     }
 
 
     // B
     var directions = gridDirections[maxKey]
-    println(directions)
     var angles = getAngles(directions!!)
     addReachableAngles(maxKey, grid, gridAngles)
     addReachableNorms(maxKey, grid, gridNorms)
@@ -52,31 +51,15 @@ fun main(args: Array<String>) {
             gridTerminationOrder[positionInAngle] = counter
             gridNorms.remove(positionInAngle)
             gridAngles.remove(positionInAngle)
-//            println("!!! $positionInAngle")
             counter++
         }
 
-
-    println("ANSWER B: ")
+    var twoHundred=gridTerminationOrder.filterValues { it==200 }
+    var ans = twoHundred.keys.map{ it.x*100+it.y }
+    println("ANSWER B: $ans")
     print(gridTerminationOrder.filterValues { it==200 })
 //    printIntGrid(gridTerminationOrder)
 }
-
-private fun printIntGrid(grid: MutableMap<Position2D, Int>) {
-    var temp = grid.toSortedMap(compareBy<Position2D> { it.y }.thenBy { it.x })
-    var yprev = 0
-    for ((key, value) in temp) {
-        print("$value, ")
-//
-        if (key.y - yprev > 0) {
-            println("")
-        }
-        yprev = key.y
-    }
-    println("")
-}
-
-
 
 fun getAngle(direction: Position2D): Double {
     var res = mutableListOf<Double>()
@@ -116,7 +99,6 @@ fun addReachableAngles(
     }
 }
 
-
 fun addReachableNorms(
     activePos: Position2D,
     grid: SortedMap<Position2D, Char>,
@@ -140,7 +122,6 @@ fun getSmallestVector(pos: Position2D): Position2D {
 
 private fun getInput(filename: String): HashMap<Position2D, Char> {
     var fileReader = BufferedReader(FileReader(filename))
-    var x = 0;
     var y = 0;
     var line = fileReader.readLine()
     var grid = HashMap<Position2D, Char>()
