@@ -63,5 +63,3 @@ private fun getInput(filename: String): MutableList<HashMap<Position2D, Char>> {
     }
     return pictures
 }
-
-private data class Position2D(var x: Int, var y: Int)

@@ -60,14 +60,10 @@ fun main(args: Array<String>) {
             }
             5 -> {
                 if (firstTerm != 0) {
-//                    pointer = operations[operations[pointer + 2]]//Todo Check if ok
-//                    pointer = operations[pointer+2]//Todo Check if ok
                     pointer = secondTerm
-//                    print("Operator is 5 second term is $secondTerm")
 
                 } else {
                     pointer += 3
-//                    println("Operator is 5 pointer became $pointer")
 
                 }
             }
@@ -110,7 +106,7 @@ private fun List<String>.operationTwo(operation: Char, first: Int, second: Int, 
 
 
 fun pointer_shift(operator: Int): Int {
-    when (operator) {
+    when (operator) { //doesnt support 5 and 6. pointer taken care of separately.Z
         1 -> return 4
         2 -> return 4
         3 -> return 2
