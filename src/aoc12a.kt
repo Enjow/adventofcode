@@ -1,9 +1,10 @@
 import java.io.BufferedReader
 import java.io.FileReader
+import java.math.BigInteger
 
 private const val FILENAME12 = "day12.txt"
 
-private const val ITERATION = 1000
+private const val ITERATION = 1000000
 fun main(args: Array<String>) {
 //    partA()
     partB()
@@ -13,19 +14,78 @@ fun partB() {
     var planets = getInput(FILENAME12)
     var speeds = mutableListOf<Position3D>()
 
-    for (i in 0 until planets.size) {
-        speeds.add(Position3D(0, 0, 0))
-    }
+    for (i in 0 until planets.size) speeds.add(Position3D(0, 0, 0))
 
+    var xPositions = checkDimensionRepetitiveness(0, planets, speeds)
+    var yPositions = checkDimensionRepetitiveness(1, planets, speeds)
+    var zPositions = checkDimensionRepetitiveness(2, planets, speeds)
+    println("test")
+
+    var xPeriod = xPositions.values.flatten().max()!!.toBigInteger()
+    var yPeriod = yPositions.values.flatten().max()!!.toBigInteger()
+    var zPeriod = zPositions.values.flatten().max()!!.toBigInteger()
+
+    var temp = lcd(xPeriod,yPeriod)
+    var ans = lcd(temp,zPeriod)
+    println(xPeriod)
+    println(yPeriod)
+    println(zPeriod)
+    println(ans)
+}
+
+private fun lcd(a: BigInteger, b: BigInteger): BigInteger {
+    return a.abs()*b.abs() / a.gcd(b)
+}
+
+private fun MutableList<Position3D>.getCurrentPosition(coordinate: Int = 0): List<Int> {
+    when (coordinate) {
+        0 -> return this.map { it.x }
+        1 -> return this.map { it.y }
+        2 -> return this.map { it.z }
+    }
+    error("Didn't get the position")
+    return listOf()
+}
+
+private fun checkDimensionRepetitiveness(
+    coordinate: Int,
+    planets: MutableList<Position3D>,
+    speeds: MutableList<Position3D>
+): HashMap<List<Int>, MutableList<Int>> {
+    var visitedPositions = HashMap<List<Int>, MutableList<Int>>()
+    var lastSuccessfullIteration = 0
+    var periods = setOf<Int>()
     for (iteration in 0 until ITERATION) {
+
         speeds.updateSpeedVectors(planets)
         planets.updatePositions(speeds)
-        planets.map { print("${it.x}, ") }
-        println("")
-        //        print(planets)
-        //        println(speeds)
-    }
 
+
+        var currPosition = planets.getCurrentPosition(coordinate)
+
+        if (visitedPositions.containsKey(currPosition)) {
+            var previousPeriods = periods
+            var seenIteratios = visitedPositions.get(currPosition)!!
+            periods = seenIteratios.map { iteration - it }.toSet()
+
+            //If two sequencial positions both are repeating and also have the same periodicity then we are going to completely repeat the sequence
+            if (lastSuccessfullIteration == iteration - 1 && periods.map { previousPeriods.contains(it) }
+                    .contains(true)) {
+                println(previousPeriods)
+                println(periods)
+                println(currPosition)
+                println("Steps: $iteration")
+                println("Complete periodicity found")
+                return visitedPositions
+//                break
+            }
+            lastSuccessfullIteration = iteration
+            visitedPositions[currPosition]?.add(iteration)
+        } else {
+            visitedPositions.putIfAbsent(currPosition, mutableListOf(iteration))
+        }
+    }
+    return visitedPositions
 }
 
 private fun partA() {
