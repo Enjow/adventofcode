@@ -5,6 +5,11 @@ private const val FILENAME12 = "day12.txt"
 
 private const val ITERATION = 1000
 fun main(args: Array<String>) {
+//    partA()
+    partB()
+}
+
+fun partB() {
     var planets = getInput(FILENAME12)
     var speeds = mutableListOf<Position3D>()
 
@@ -13,8 +18,27 @@ fun main(args: Array<String>) {
     }
 
     for (iteration in 0 until ITERATION) {
-        updateSpeedVectors(planets, speeds)
-        updatePositions(planets, speeds)
+        speeds.updateSpeedVectors(planets)
+        planets.updatePositions(speeds)
+        planets.map { print("${it.x}, ") }
+        println("")
+        //        print(planets)
+        //        println(speeds)
+    }
+
+}
+
+private fun partA() {
+    var planets = getInput(FILENAME12)
+    var speeds = mutableListOf<Position3D>()
+
+    for (i in 0 until planets.size) {
+        speeds.add(Position3D(0, 0, 0))
+    }
+
+    for (iteration in 0 until ITERATION) {
+        speeds.updateSpeedVectors(planets)
+        planets.updatePositions(speeds)
 //        print(planets)
 //        println(speeds)
     }
@@ -23,21 +47,21 @@ fun main(args: Array<String>) {
     println(getEnergy(planets, speeds))
 }
 
-fun updatePositions(planets: MutableList<Position3D>, speeds: MutableList<Position3D>) {
-    for ((i, planet) in planets.withIndex()) { //Update positions
-        planets[i] = planet + speeds[i]
+private fun MutableList<Position3D>.updatePositions(speeds: MutableList<Position3D>) {
+    for ((i, planet) in this.withIndex()) { //Update positions
+        this[i] = planet + speeds[i]
     }
 }
 
-fun updateSpeedVectors(planets: MutableList<Position3D>, speeds: MutableList<Position3D>) {
+private fun MutableList<Position3D>.updateSpeedVectors(planets: MutableList<Position3D>) {
     for ((a, planetA) in planets.withIndex()) { //compare all planets to each other.
         for ((b, planetB) in planets.withIndex()) {
-            getDirection(planetA, planetB, speeds[a])
+            this[a].getDirection(planetA, planetB)
         }
     }
 }
 
-fun getEnergy(planets: MutableList<Position3D>, speeds: MutableList<Position3D>): Int {
+private fun getEnergy(planets: MutableList<Position3D>, speeds: MutableList<Position3D>): Int {
     var sum = 0
     for (i in 0 until planets.size) {
         sum += planets[i].energy() * speeds[i].energy()
@@ -45,15 +69,15 @@ fun getEnergy(planets: MutableList<Position3D>, speeds: MutableList<Position3D>)
     return sum
 }
 
-fun getDirection(planetA: Position3D, planetB: Position3D, speedA: Position3D) {
-    if (planetA.x < planetB.x) speedA.x++
-    else if (planetA.x > planetB.x) speedA.x--
+private fun Position3D.getDirection(planetA: Position3D, planetB: Position3D) {
+    if (planetA.x < planetB.x) this.x++
+    else if (planetA.x > planetB.x) this.x--
 
-    if (planetA.y < planetB.y) speedA.y++
-    else if (planetA.y > planetB.y) speedA.y--
+    if (planetA.y < planetB.y) this.y++
+    else if (planetA.y > planetB.y) this.y--
 
-    if (planetA.z < planetB.z) speedA.z++
-    else if (planetA.z > planetB.z) speedA.z--
+    if (planetA.z < planetB.z) this.z++
+    else if (planetA.z > planetB.z) this.z--
 }
 
 
